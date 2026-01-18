@@ -1,3 +1,11 @@
+
+# Add gvm go
+bass source ~/.gvm/scripts/gvm ';' gvm use go1.24.5 --default
+#set -gx GOROOT $HOME/.gvm/gos/go1.24.5
+#set -gx GOPATH $HOME/.gvm/pkgsets/go1.24.5/global
+#set -gx PATH $GOROOT/bin $GOPATH/bin $PATH
+
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -63,7 +71,7 @@ function fish_prompt
 
     # Print the prompt: first line with details, second line with the prompt symbol
     echo $prompt_line
-    echo (set_color magenta)"⋊ ⫸  "(set_color normal)
+    echo (set_color magenta)"⋊⫸  "(set_color normal)
 end
 
 
@@ -76,3 +84,25 @@ end
 if test -f ~/.config/fish/functions/utils.fish
     source ~/.config/fish/functions/utils.fish
 end
+
+# Ensure essential system paths are present
+set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin $PATH
+
+# pyenv setup for Fish
+set -gx PYENV_ROOT $HOME/.pyenv
+set -gx PATH $PYENV_ROOT/bin $PATH
+
+# Add Bun
+set -gx PATH $HOME/.bun/bin $PATH
+
+
+# Only if pyenv command exists, initialize it:
+if type -q pyenv
+    status --is-interactive; and pyenv init - fish | source
+    status --is-interactive; and pyenv virtualenv-init - fish | source
+end
+set -gx GOPATH $HOME/go; set -gx GOROOT $HOME/.go; set -gx PATH $GOPATH/bin $PATH; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+
+
+#HELIX
+export HELIX_RUNTIME=/usr/local/share/helix/runtime
